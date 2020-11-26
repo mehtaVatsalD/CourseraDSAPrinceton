@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class QuickFind implements UnionFind {
 
-    private int[] idValues;
+    private final int[] idValues;
 
     public QuickFind(int n) {
         this.idValues = new int[n];
@@ -28,25 +28,20 @@ public class QuickFind implements UnionFind {
 
     @Override
     public int countConnectedComponents(){
-        return getUniqueIds();
+        return getUniqueIdCount();
     }
 
     /**
      * get unique ids present inside idValues
      */
-    private int getUniqueIds(){
+    private int getUniqueIdCount(){
         Map<Integer, Integer> idCountMap = new HashMap<>();
         int idCount;
         for (int idValue : idValues) {
             idCount = idCountMap.getOrDefault(idValue, 0);
             idCountMap.put(idValue, ++idCount);
         }
-
-        int connectedComponentCount = 0;
-        for (Map.Entry<Integer, Integer> idCountEntry:idCountMap.entrySet()){
-            connectedComponentCount++;
-        }
-        return connectedComponentCount;
+        return idCountMap.size();
     }
 
     @Override
