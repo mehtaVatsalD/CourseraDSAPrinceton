@@ -8,9 +8,11 @@ import java.util.Map;
 public class QuickUnion implements UnionFind {
 
     private final int[] idValues;
+    private int count;
 
     public QuickUnion(int n) {
         this.idValues = new int[n];
+        this.count = n;
         fillAllIdsWithIndexValue();
     }
 
@@ -18,7 +20,13 @@ public class QuickUnion implements UnionFind {
     public void union(int p, int q){
         int parentOfP = getId(p);
         int parentOfQ = getId(q);
+
+        if (parentOfP == parentOfQ) {
+            return;
+        }
+
         idValues[parentOfP] = parentOfQ;
+        count--;
     }
 
     @Override
@@ -30,22 +38,7 @@ public class QuickUnion implements UnionFind {
 
     @Override
     public int countConnectedComponents(){
-        return getUniqueParentCount();
-    }
-
-    /**
-     * get unique ids present inside idValues
-     */
-    private int getUniqueParentCount(){
-        Map<Integer, Integer> idCountMap = new HashMap<>();
-        int rootIdCount;
-        int rootId;
-        for (int i=0;i< idValues.length;i++) {
-            rootId = getId(i);
-            rootIdCount = idCountMap.getOrDefault(rootId, 0);
-            idCountMap.put(rootId, ++rootIdCount);
-        }
-        return idCountMap.size();
+        return count;
     }
 
     /**

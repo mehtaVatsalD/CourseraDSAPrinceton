@@ -7,10 +7,21 @@ import static org.junit.Assert.*;
 
 public class WeightedQuickUnionTest {
 
-    private final UnionFind uf = new WeightedQuickUnion(10);
+    private UnionFind uf;
 
     @Test
     public void testWeightedQuickUnion(){
+        uf = new WeightedQuickUnion(10);
+        performTests();
+    }
+
+    @Test
+    public void testWeightedQuickUnionWithPC(){
+        uf = new WeightedQuickUnionPC(10);
+        performTests();
+    }
+
+    private void performTests() {
         uf.union(6, 8);
         uf.union(7, 9);
         uf.union(9, 8);
@@ -37,7 +48,6 @@ public class WeightedQuickUnionTest {
         assertEquals(8, uf.getId(7));
         assertEquals(8, uf.getId(5));
         assertEquals(2, uf.countConnectedComponents());
-
     }
 
 }

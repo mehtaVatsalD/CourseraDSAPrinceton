@@ -8,9 +8,11 @@ import java.util.Map;
 public class QuickFind implements UnionFind {
 
     private final int[] idValues;
+    private int count;
 
     public QuickFind(int n) {
         this.idValues = new int[n];
+        this.count = n;
         fillAllIdsWithIndexValue();
     }
 
@@ -18,7 +20,13 @@ public class QuickFind implements UnionFind {
     public void union(int p, int q){
         int idOfP = getId(p);
         int idOfQ = getId(q);
+
+        if (idOfP == idOfQ) {
+            return;
+        }
+
         replaceIds(idOfP, idOfQ);
+        count--;
     }
 
     @Override
@@ -28,20 +36,7 @@ public class QuickFind implements UnionFind {
 
     @Override
     public int countConnectedComponents(){
-        return getUniqueIdCount();
-    }
-
-    /**
-     * get unique ids present inside idValues
-     */
-    private int getUniqueIdCount(){
-        Map<Integer, Integer> idCountMap = new HashMap<>();
-        int idCount;
-        for (int idValue : idValues) {
-            idCount = idCountMap.getOrDefault(idValue, 0);
-            idCountMap.put(idValue, ++idCount);
-        }
-        return idCountMap.size();
+        return count;
     }
 
     @Override

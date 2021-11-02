@@ -5,13 +5,13 @@ import com.gogocodes.unionfind.UnionFind;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WeightedQuickUnion implements UnionFind {
+public class WeightedQuickUnionPC implements UnionFind {
 
     private final int[] idValues;
     private final int[] treeSizes;
     private int count;
 
-    public WeightedQuickUnion(int n) {
+    public WeightedQuickUnionPC(int n) {
         this.idValues = new int[n];
         this.treeSizes = new int[n];
         this.count = n;
@@ -54,14 +54,23 @@ public class WeightedQuickUnion implements UnionFind {
      * returns to root of node passed in as parameter
      * @param p node for which root node is to be find
      * @return id of root
+     *
+     * This is two iteration implementation of finding root, wherein after finding root, all nodes in path's parent is changed to root
      */
     @Override
     public int getId(int p){
-        int toSearch = p;
-        while(toSearch != idValues[toSearch]){
-            toSearch = idValues[toSearch];
+        int node = p;
+        while(node != idValues[node]){
+            node = idValues[node];
         }
-        return toSearch;
+        int root = node;
+        node = p;
+        while(node != idValues[node]){
+            int parent = idValues[node];
+            idValues[node] = root;
+            node = parent;
+        }
+        return root;
     }
 
     /**
