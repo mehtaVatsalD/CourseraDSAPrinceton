@@ -5,6 +5,10 @@ import com.gogocodes.unionfind.UnionFind;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Final optimized implementation for union-find data structure
+ * This implements weighted quick union with path compression.
+ */
 public class WeightedQuickUnionPC implements UnionFind {
 
     private final int[] idValues;
@@ -71,6 +75,10 @@ public class WeightedQuickUnionPC implements UnionFind {
             node = parent;
         }
         return root;
+    }
+
+    public int size() {
+        return idValues.length;
     }
 
     /**
